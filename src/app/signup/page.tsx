@@ -16,12 +16,20 @@ export default function SignupPage() {
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const onSignup = async () => {
+  const onSignup = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
+      event.preventDefault();
+      console.log("SIGNUP 1");
       setIsLoading(true);
       const response = await axios.post("/api/users/signup", user);
-      console.log(response);
-      router.push("/login");
+      if (response.status === 200) {
+        console.log("SIGNUP SUCCESSFUL 201");
+        router.push("/login");
+      }
+      // console.log(response);
+      console.log("SIGNUP SUCCESSFUL", response);
+      // router.push("/login");
+      console.log("SIGNUP SUCCESSFUL 2");
     } catch (error: any) {
       console.log("sign up failed", error.message);
     } finally {

@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
     //check if user exists using the email
     const user = await User.findOne({ email });
     if (user) {
+      console.log("User with that email already exists");
       return NextResponse.json(
         { error: "User with that email already exists" },
         { status: 400 }
@@ -35,13 +36,14 @@ export async function POST(request: NextRequest) {
     });
 
     const savedUser = await newUser.save();
-    console.log(savedUser);
+    console.log("USER SUCCESSFULLY CREATED ", savedUser);
 
     //send back the new user
     return NextResponse.json({
       message: "User created successfully",
       success: true,
-      savedUser,
+      user: savedUser,
+      status: 201,
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
